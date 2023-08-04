@@ -1,0 +1,56 @@
+.container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.myInput {
+    border-radius:  10px;
+    border: 1px solid rgba(208, 213, 221, 1);
+    width: 100%;
+    font-size: 18px;
+    padding: 16px;
+    outline: none;
+    line-height: 19.2px;
+    margin-bottom: 16px;
+
+}
+.valid {
+    border: 1px solid rgba(176, 102, 255, 1);
+    border-radius:  10px;
+    width: 100%;
+    font-size: 18px;
+    padding: 16px;
+    outline: none;
+    line-height: 19.2px;
+    margin-bottom: 16px;
+}
+
+.myInput.invalid {
+    border: 1px solid red;
+}
+
+
+.myInput:focus {
+    border: 1px solid rgba(176, 102, 255, 1);
+}
+.myInput:not(:focus):hover {
+    border: 1px solid rgba(155, 155, 155, 1);
+}
+
+
+
+.myInput.valid {
+    border: 1px solid rgba(176, 102, 255, 1);
+}
+
+.btnPassword {
+    width: 18px;
+    height: 18px;
+    border: none;
+    background: none;
+    position: absolute ;
+    top: 11px;
+    right: 21px;
+}
