@@ -3,7 +3,7 @@ import logo from '../assets/img/logo.png'
 import { MyInput } from '../components/UI/Input/myInput'
 import { MyButton } from '../components/UI/myButton/MyButton';
 import { useState } from 'react';
-import { IconPassword } from '../components/UI/iconPassword/IconBlur';
+import { IconPassword } from '../components/UI/iconBlur/IconBlur';
 import { useNavigate } from "react-router-dom";
 import { FIRST_LOGIN_ROUTE } from '../utils/consts';
 
