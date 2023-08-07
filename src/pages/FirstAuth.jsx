@@ -6,12 +6,10 @@ import { useState } from 'react';
 import { IconPassword } from '../components/UI/iconPassword/IconBlur';
 import { useNavigate } from "react-router-dom";
 import { FIRST_LOGIN_ROUTE } from '../utils/consts';
-import { IconError } from '../components/UI/IconError/IconError';
 
-
-export const Auth = () => {
-    // const [firstAuth, setFirstAuth] = useState(false)
-    // const navigate = useNavigate();
+export const FirstAuth = () => {
+    const [firstAuth, setFirstAuth] = useState(false)
+    const navigate = useNavigate();
 
     const [valueLogin, setValueLogin] = useState('');
     const [valuePassword, setValuePassword] = useState('');
@@ -20,7 +18,7 @@ export const Auth = () => {
     const [validPassword, setValidPassword] = useState(null);
 
     const [type, setType] = useState('password');
-    const [colorBtnBlur, setColorBtnBlur] = useState('rgba(33, 37, 41, 1)');
+    const [colorBtnPassword, setColorBtnPassword] = useState('rgba(33, 37, 41, 1)');
 
     const [textError, setTextError] = useState('');
 
@@ -36,11 +34,11 @@ export const Auth = () => {
         e.preventDefault()
         if (type === 'password') {
             setType('text');
-            setColorBtnBlur('rgba(176, 102, 255, 1)');
+            setColorBtnPassword('rgba(176, 102, 255, 1)');
         }
         if (type === 'text') {
             setType('password');
-            setColorBtnBlur('rgba(33, 37, 41, 1)');
+            setColorBtnPassword('rgba(33, 37, 41, 1)');
         }
     }
 
@@ -54,25 +52,35 @@ export const Auth = () => {
                 <form className='form-auth' action="">
                     <img className='img-logo' src={logo} alt="MegaLife" />
                     <h3 className='form-title'>Авторизация в MegaLife</h3>
-                    <MyInput 
-                        placeholderTitle={'Логин'}
-                        typeValue='text' 
-                        funcvalid={validLogin}
-                        onChange = {(e) => setValueLogin(e.target.value)}
-                        onBlur={(e) => {
-                            if (e.target.value === '') {
-                                setValidLogin(null)
-                                return;
-                            } else {
-                                if (isvalidLogin(valueLogin)) {
-                                    setValidLogin(true)
+                    <div className='container__with__icon'>
+                        <MyInput 
+                            placeholderTitle={'Логин'}
+                            typeValue='text' 
+                            funcvalid={validLogin}
+                            onChange = {(e) => setValueLogin(e.target.value)}
+                            onBlur={(e) => {
+                                if (e.target.value === '') {
+                                    setValidLogin(null)
+                                    return;
                                 } else {
-                                    setValidLogin(false)
+                                    if (isvalidLogin(valueLogin)) {
+                                        setValidLogin(true)
+                                    } else {
+                                        setValidLogin(false)
+                                    }
                                 }
-                            }
-                        } }
-                        valid={validLogin}
-                    />
+                            } }
+                            valid={validLogin}
+                        />
+                        <button 
+                            className="btn-password"
+                            onClick={(e) => clickpassword(e)}
+                            disabled={valuePassword === ''}
+                        >
+                            <IconPassword color={colorBtnPassword}/>
+                        </button>
+                    </div>
+                    
                     <div className='container__with__icon'>
                         <MyInput 
                             placeholderTitle={'Пароль'} 
@@ -91,7 +99,6 @@ export const Auth = () => {
                                     }
                                 }
                             }}
-                            // OnFocus={te()}
                             valid={validPassword}
                             valuePassword={valuePassword}
                         />
@@ -100,12 +107,12 @@ export const Auth = () => {
                             onClick={(e) => clickpassword(e)}
                             disabled={valuePassword === ''}
                         >
-                            <IconPassword color={colorBtnBlur}/>
+                            <IconPassword color={colorBtnPassword}/>
                         </button>
                     </div>
                    
                     <div className="container__info">
-                            <span className='info__error'>{textError}</span>
+                        <span className='info__error'>{textError}</span>
                         <p className='forgot-password'> <a href="!#">Забыли пароль?</a></p>
                     </div>
                         <MyButton 
@@ -113,23 +120,23 @@ export const Auth = () => {
                                 e.preventDefault();
                                 if (valueLogin === '') {
                                     setValidLogin(false);
-                                    setTextError(<><IconError /> Заполните все поля</>);
+                                    setTextError('Заполните все поля');
                                 }
                                 if (valuePassword === '') {
                                     setValidPassword(false);
-                                    setTextError(<><IconError /> Заполните все поля</>);
+                                    setTextError('Заполните все поля');
 
                                 }
                                 if (validLogin === false  || validPassword === false) {
-                                    setTextError(<><IconError />Некорректный логин или пароль</>);
+                                    setTextError('Некорректный логин или пароль');
 
                                 }
                                 if (validLogin && validPassword) {
                                     console.log(validLogin , validPassword)
 
                                     setTextError('');
-                                    // setFirstAuth(true)
-                                    // navigate(FIRST_LOGIN_ROUTE)
+                                    setFirstAuth(true)
+                                    navigate(FIRST_LOGIN_ROUTE)
                                 }
                             }}
                         >
