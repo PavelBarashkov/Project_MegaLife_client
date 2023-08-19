@@ -254,9 +254,11 @@ p.forgot-password {
     .container-form {
         width: 100%;
         justify-content: center;
+        padding: 0 24px;
     }
     .form-auth {
         margin-left: 0 !important;
+        transform: scale(1) !important;
         width: 327px;
         height: auto;
         padding: 0;
@@ -267,8 +269,6 @@ p.forgot-password {
         font-size: 18px;
     }
 }
-
-
 
 @media (width < 1700px) {
     .form-auth {
@@ -287,9 +287,18 @@ p.forgot-password {
         transform: translate(5%, -50%);
     }
 }
-@media (width < 1550px) and (orientation: landscape){
+@media (width < 1000px) and (orientation: landscape){
     .form-auth{
-        transform: scale(0.7);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.7) !important;
+
+    } 
+}
+
+@media (width < 768px) and (orientation: landscape){
+    .form-auth{
+        transform: scale(0.7) !important;
     } 
 }
 
