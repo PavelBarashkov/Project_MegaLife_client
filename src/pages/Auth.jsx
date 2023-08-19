@@ -5,13 +5,14 @@ import { MyButton } from '../components/UI/myButton/MyButton';
 import { useState } from 'react';
 import { IconBlur, IconPassword } from '../components/UI/iconBlur/IconBlur';
 import { useNavigate } from "react-router-dom";
-import { FIRST_LOGIN_ROUTE } from '../utils/consts';
+import { FIRST_LOGIN_ROUTE, RESET_PASSWORD_ROUTE } from '../utils/consts';
 import { IconError } from '../components/UI/IconError/IconError';
+import { observer } from 'mobx-react-lite';
 
 
-export const Auth = () => {
-    // const [firstAuth, setFirstAuth] = useState(false)
-    // const navigate = useNavigate();
+export const Auth = observer(() => {
+    const [firstAuth, setFirstAuth] = useState(false)
+    const navigate = useNavigate();
 
     const [valueLogin, setValueLogin] = useState('');
     const [valuePassword, setValuePassword] = useState('');
@@ -36,16 +37,12 @@ export const Auth = () => {
         e.preventDefault()
         if (type === 'password') {
             setType('text');
-            setColorBtnBlur('rgba(176, 102, 255, 1)');
+            setColorBtnBlur('rgba(33, 37, 41, 1)');
         }
         if (type === 'text') {
             setType('password');
             setColorBtnBlur('rgba(33, 37, 41, 1)');
         }
-    }
-
-    function te() {
-        setTextError('');
     }
 
     return (
@@ -59,18 +56,14 @@ export const Auth = () => {
                         typeValue='text' 
                         funcvalid={validLogin}
                         onChange = {(e) => setValueLogin(e.target.value)}
-                        onBlur={(e) => {
-                            if (e.target.value === '') {
-                                setValidLogin(null)
-                                return;
-                            } else {
-                                if (isvalidLogin(valueLogin)) {
-                                    setValidLogin(true)
-                                } else {
-                                    setValidLogin(false)
-                                }
+                        valueInput={valueLogin}
+                        onFocus={() => {
+                            if(validLogin === false) {
+                                setValidLogin(null);
+                                setValidPassword(null);
+                                setTextError('');
                             }
-                        } }
+                        }}
                         valid={validLogin}
                     />
                     <div className='container__with__icon'>
@@ -79,19 +72,14 @@ export const Auth = () => {
                             type= {type}
                             icon={true}
                             onChange = {(e) => setValuePassword(e.target.value)}
-                            onBlur={(e) => {
-                                if (e.target.value === '') {
-                                    setValidPassword(null)
-                                    return;
-                                } else {
-                                    if (isvalidPassword(valuePassword)) {
-                                        setValidPassword(true)
-                                    } else {
-                                        setValidPassword(false)
-                                    }
+                            valueInput={valuePassword}
+                            onFocus={() => {
+                                if(validPassword === false) {
+                                    setValidLogin(null);
+                                    setValidPassword(null);
+                                    setTextError('');
                                 }
                             }}
-                            // OnFocus={te()}
                             valid={validPassword}
                             valuePassword={valuePassword}
                         />
@@ -106,30 +94,35 @@ export const Auth = () => {
                    
                     <div className="container__info">
                             <span className='info__error'>{textError}</span>
-                        <p className='forgot-password'> <a href="!#">Забыли пароль?</a></p>
+                        <p className='forgot-password'> 
+                            <span className='toPage' onClick={()=> navigate(RESET_PASSWORD_ROUTE)}> 
+                                Забыли пароль?
+                            </span>
+                        </p>
                     </div>
                         <MyButton 
                             onClick={(e) => {
                                 e.preventDefault();
-                                if (valueLogin === '') {
+                                if (valueLogin === '' || valuePassword === '') {
                                     setValidLogin(false);
-                                    setTextError(<><IconError /> Заполните все поля</>);
-                                }
-                                if (valuePassword === '') {
                                     setValidPassword(false);
-                                    setTextError(<><IconError /> Заполните все поля</>);
-
+                                    setTextError(<><IconError />Заполните все поля</>); 
+                                    return;
                                 }
-                                if (validLogin === false  || validPassword === false) {
+                                if(!isvalidLogin(valueLogin) || !isvalidPassword(valuePassword)) {
+                                    setValidLogin(false);
+                                    setValidPassword(false);
                                     setTextError(<><IconError />Некорректный логин или пароль</>);
 
                                 }
-                                if (validLogin && validPassword) {
+                                if (isvalidLogin(valueLogin) && isvalidPassword(valuePassword)) {
                                     console.log(validLogin , validPassword)
 
                                     setTextError('');
-                                    // setFirstAuth(true)
-                                    // navigate(FIRST_LOGIN_ROUTE)
+                                    setValidLogin(true);
+                                    setValidPassword(true);
+                                    setFirstAuth(true);
+                                    navigate(FIRST_LOGIN_ROUTE)
                                 }
                             }}
                         >
@@ -144,4 +137,4 @@ export const Auth = () => {
             </div>
         </div>
     )
-}
+})

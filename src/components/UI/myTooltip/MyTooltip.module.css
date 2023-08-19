@@ -1,0 +1,24 @@
+.myTooltip {
+    position: absolute;
+    padding: 12px;
+    text-align: center;
+    top: 40px;
+    background-color: rgba(255, 255, 255, 1);
+    z-index: 999999;
+    box-shadow: 0px 4px 16px -4px rgba(16, 24, 40, 0.3);
+    font-size: 14px;
+    border-radius: 8px;
+}
+
+.myTooltip:hover {
+
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+.first_p {
+    margin-bottom: 10px;
+}

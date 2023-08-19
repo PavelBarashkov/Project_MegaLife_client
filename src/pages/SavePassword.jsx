@@ -5,12 +5,12 @@ import { MyButton } from '../components/UI/myButton/MyButton';
 import { useEffect, useState } from 'react';
 import { IconBlur } from '../components/UI/iconBlur/IconBlur';
 import { useNavigate } from "react-router-dom";
-import { FIRST_LOGIN_ROUTE } from '../utils/consts';
+import { FIRST_LOGIN_ROUTE, LOGIN_ROUTE } from '../utils/consts';
 import { IconQuestion } from '../components/UI/iconQuestion/IconQuestion';
 import { MyTooltip } from '../components/UI/myTooltip/MyTooltip';
 import { IconError } from '../components/UI/IconError/IconError';
 
-export const FirstAuth = () => {
+export const SavePassword = () => {
     const navigate = useNavigate();
 
     const [valuePassword, setValuePassword] = useState('');
@@ -76,7 +76,7 @@ export const FirstAuth = () => {
                     <div className="container-form">
                         <form className='form-auth' action="">
                             <img className='img-logo' src={logo} alt="MegaLife" />
-                            <h3 className='form-title'>Пароль успешно создан!</h3>
+                            <h3 className='form-title'>Пароль успешно восстановлен!</h3>
                             <MyButton>Войти</MyButton>
                         </form>
                     </div>
@@ -90,7 +90,7 @@ export const FirstAuth = () => {
                     <div className="container-form">
                         <form className='form-auth' action="">
                             <img className='img-logo' src={logo} alt="MegaLife" />
-                            <h3 className='form-title'>Создание нового пароля</h3>
+                            <h3 className='form-title'>Восстановление пароля</h3>
                             <div className='container__with__icon'>
                                 <MyInput 
                                     placeholderTitle={'Введите новый пароль'}
@@ -139,7 +139,7 @@ export const FirstAuth = () => {
                     
                             <div className='container__with__icon'>
                                 <MyInput 
-                                    placeholderTitle={'Повторите новый пароль'} 
+                                    placeholderTitle={'Введите пароль повторно'} 
                                     type= {typeRepeatPassword}
                                     icon={true}
                                     valueInput={valueRepeatPassword}
@@ -233,9 +233,9 @@ export const FirstAuth = () => {
                                     }
                                 }}
                             >
-                                Далее
+                                Восстановить пароль
                             </MyButton> 
-                            <p  className="form-info">Нажимая кнопку, я соглашаюсь с условиями<br></br> <a href='!#' className='convention'>Пользовательского соглашения</a> </p>
+                            <p  className="form-info reset-info">Я вспомнил пароль. &nbsp;<br></br> <span onClick={() => navigate(LOGIN_ROUTE)} className='toPage coustom'> Вернуться</span> </p>
                         </form>
                     </div>
                     <div className="container-decor">
