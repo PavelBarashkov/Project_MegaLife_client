@@ -42,7 +42,10 @@ export const SavePassword = () => {
     const [success, setSuccess] = useState(false);
 
     function isvalidPassword(str) {
-        return /^(?=.*[A-Za-z0-9!#$%&_-]).{6,}$/.test(str);
+        if (/\s/.test(str)) {
+            return false;
+          }
+          return /^(?=.*[A-Za-z0-9!#$%&_-]).{6,}$/.test(str);
     }
     function isValidRepeatPassword(password, repeatPassword) {
         if (password === repeatPassword) {

@@ -9,9 +9,14 @@ import { FIRST_LOGIN_ROUTE } from '../utils/consts';
 import { IconQuestion } from '../components/UI/iconQuestion/IconQuestion';
 import { MyTooltip } from '../components/UI/myTooltip/MyTooltip';
 import { IconError } from '../components/UI/IconError/IconError';
+import { IconCloseBlur } from '../components/UI/iconCloseBlur/IconCloseBlur';
 
 export const FirstAuth = () => {
     const navigate = useNavigate();
+
+    const [isShowIconBlur, setIsShowIconBlur] = useState(false);
+    const [isShowRepeatIconBlur, setIsShowRepeatIconBlur] = useState(false);
+
 
     const [valuePassword, setValuePassword] = useState('');
     const [valueRepeatPassword, setValueRepeatPassword] = useState('');
@@ -42,7 +47,10 @@ export const FirstAuth = () => {
     const [success, setSuccess] = useState(false);
 
     function isvalidPassword(str) {
-        return /^(?=.*[A-Za-z0-9!#$%&_-]).{6,}$/.test(str);
+        if (/\s/.test(str)) {
+            return false;
+          }
+          return /^(?=.*[A-Za-z0-9!#$%&_-]).{6,}$/.test(str);
     }
     function isValidRepeatPassword(password, repeatPassword) {
         if (password === repeatPassword) {
@@ -54,13 +62,28 @@ export const FirstAuth = () => {
 
 
     function clickpassword(e, type, setType,func) {
-        e.preventDefault()
+        e.preventDefault();
         if (type === 'password') {
             setType('text');
-            func('rgba(33, 37, 41, 1)');
+            func('rgba(155, 155, 155, 1)');
+            setIsShowIconBlur(true);
         }
         if (type === 'text') {
             setType('password');
+            setIsShowIconBlur(false);
+            func('rgba(33, 37, 41, 1)');
+        }
+    }
+    function clickpasswordRepeat(e, type, setType,func) {
+        e.preventDefault();
+        if (type === 'password') {
+            setType('text');
+            func('rgba(155, 155, 155, 1)');
+            setIsShowRepeatIconBlur(true);
+        }
+        if (type === 'text') {
+            setType('password');
+            setIsShowRepeatIconBlur(false);
             func('rgba(33, 37, 41, 1)');
         }
     }
@@ -116,10 +139,18 @@ export const FirstAuth = () => {
                                 />
                                 <button 
                                     className="btn-password buble_icon"
-                                    onClick={(e) => clickpassword(e, typePassword, setTypePassword,setColorBtnPassword)}
+                                    onClick={(e) => clickpassword(e, typePassword, setTypePassword, setColorBtnPassword)}
                                     disabled={valuePassword === ''}
                                 >
-                                    <IconBlur color={colorBtnPassword}/>
+                                    {isShowIconBlur ?
+                                        <IconBlur 
+                                            color={colorBtnPassword}
+                                        />
+                                        :
+                                        <IconCloseBlur 
+                                            color={colorBtnPassword}
+                                        />
+                                    }
                                 </button>
                                 <IconQuestion 
                                     onMouseEnter={() => setIsShown(true)}
@@ -164,10 +195,18 @@ export const FirstAuth = () => {
                                 />
                                 <button 
                                     className="btn-password"
-                                    onClick={(e) => clickpassword(e, typeRepeatPassword, setTypeRepeatPassword ,setColorBtnRepeatPassword)}
+                                    onClick={(e) => clickpasswordRepeat(e, typeRepeatPassword, setTypeRepeatPassword ,setColorBtnRepeatPassword)}
                                     disabled={valueRepeatPassword === ''}
                                 >
-                                    <IconBlur color={colorBtnRepeatPassword}/>
+                                    {isShowRepeatIconBlur ?
+                                        <IconBlur 
+                                            color={colorBtnRepeatPassword}
+                                        />
+                                        :
+                                        <IconCloseBlur 
+                                            color={colorBtnRepeatPassword}
+                                        />
+                                    }
                                 </button>
                             </div>
                             {isShownErrorPassword && (
@@ -197,7 +236,18 @@ export const FirstAuth = () => {
                                         setValidPassword(false);
                                         setValidRepeatPassword(false);
                                         setIsInfoSubmit(true);
+                                        setColorbtnQuestion('rgba(255, 78, 100, 1)');
+                                        
                                         setInfoTextError('Заполните все поля');
+                                        return;
+                                    }
+                                    if (valuePassword.length <= 5) {
+                                        setValidPassword(false);
+                                        setValidRepeatPassword(false);
+                                        setIsInfoSubmit(true);
+                                        setColorbtnQuestion('rgba(255, 78, 100, 1)');
+
+                                        setInfoTextError('Короткий пароль');
                                         return;
                                     }
 

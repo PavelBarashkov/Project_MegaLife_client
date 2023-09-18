@@ -7,11 +7,13 @@ import { IconBlur, IconPassword } from '../components/UI/iconBlur/IconBlur';
 import { useNavigate } from "react-router-dom";
 import { FIRST_LOGIN_ROUTE, RESET_PASSWORD_ROUTE } from '../utils/consts';
 import { IconError } from '../components/UI/IconError/IconError';
+import { IconCloseBlur}  from '../components/UI/iconCloseBlur/IconCloseBlur';
 import { observer } from 'mobx-react-lite';
 
 
 export const Auth = observer(() => {
     const [firstAuth, setFirstAuth] = useState(false)
+    const [isShowIconBlur, setIsShowIconBlur] = useState(false);
     const navigate = useNavigate();
 
     const [valueLogin, setValueLogin] = useState('');
@@ -30,17 +32,22 @@ export const Auth = observer(() => {
     }
 
     function isvalidPassword(str) {
-        return /^(?=.*[A-Za-z0-9!#$%&_-]).{6,}$/.test(str);
+        if (/\s/.test(str)) {
+            return false;
+          }
+          return /^(?=.*[A-Za-z0-9!#$%&_-]).{6,}$/.test(str);
     }
 
     function clickpassword(e) {
         e.preventDefault()
         if (type === 'password') {
             setType('text');
-            setColorBtnBlur('rgba(33, 37, 41, 1)');
+            setIsShowIconBlur(true);
+            setColorBtnBlur('rgba(155, 155, 155, 1)');
         }
         if (type === 'text') {
             setType('password');
+            setIsShowIconBlur(false);
             setColorBtnBlur('rgba(33, 37, 41, 1)');
         }
     }
@@ -87,8 +94,16 @@ export const Auth = observer(() => {
                             className="btn-password"
                             onClick={(e) => clickpassword(e)}
                             disabled={valuePassword === ''}
-                        >
-                            <IconBlur color={colorBtnBlur}/>
+                        >   
+                            {isShowIconBlur ?
+                                <IconBlur 
+                                    color={colorBtnBlur}
+                                />
+                                :
+                                <IconCloseBlur 
+                                    color={colorBtnBlur}
+                                />
+                            }
                         </button>
                     </div>
                    

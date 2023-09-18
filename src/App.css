@@ -192,7 +192,7 @@ p.forgot-password {
     border: none;
     background: none;
     position: absolute ;
-    top: 11px;
+    top: 13px;
     right: 21px;
 }
 
@@ -202,7 +202,7 @@ p.forgot-password {
 
 .icon_question {
     position: absolute ;
-    top: 18px;
+    top: 20px;
     right: 12px;
     cursor: pointer;
 }
